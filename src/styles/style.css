@@ -1,3 +1,23 @@
 div#dummy {
   color: green;
 }
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+div.container {
+  width: 200px;
+  height: 200px;
+  background-color: #f2f8ea;
+}
+
+.center-text {
+  text-align: center;
+}
