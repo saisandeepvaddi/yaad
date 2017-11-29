@@ -21,3 +21,15 @@ div.container {
 .center-text {
   text-align: center;
 }
+
+.todo-remove-button {
+  border-style: none;
+  border-radius: 50%;
+  background-color: red;
+  font: 120%;
+  color: white;
+}
+
+.todo-remove-button:before {
+  content: " ";
+}
