@@ -4,9 +4,22 @@ var removeTodo = function() {
     .remove();
 };
 
+var strikeoutTodo = function() {
+  var isLineThough = $(this).css("text-decoration");
+  console.log(isLineThough);
+
+  if (isLineThough.split(" ").includes("line-through")) {
+    $(this).css("text-decoration", "none");
+  } else {
+    $(this).css("text-decoration", "line-through");
+  }
+};
+
 var createToDoRow = function(todo) {
   var todoItemContainer = $("<div class='todo-item'></div>");
-  var item = $("<div class='todo-element'>" + todo + "</div>");
+  var item = $("<div class='todo-element'>" + todo + "</div>").click(
+    strikeoutTodo
+  );
   var deleteButton = $(
     '<div><i class="tiny material-icons red">close</i><div>'
   ).click(removeTodo);

@@ -4,7 +4,7 @@ div#dummy {
 
 html,
 body {
-  width: 100%;
+  /* width: 100px; */
   padding: 0px;
   margin: 0px;
   background-color: #f2f8ea;
@@ -44,6 +44,13 @@ div.container {
 .todo-item {
   display: flex;
   justify-content: space-between;
+}
+
+.todo-element {
+  display: inline-block;
+  width: 10em;
+  overflow-wrap: break-word;
+  user-select: none;
 }
 
 .add-button-container {
