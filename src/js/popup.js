@@ -20,7 +20,18 @@ function uuid() {
   );
 }
 
-var removeTodo = function(todo) {};
+var setTodoCount = function() {
+  chrome.storage.sync.get("yaad", function(yaad) {
+    var todos = yaad.yaad;
+    var remainingCount = 0;
+    for (var i = 0; i < todos.length; i++) {
+      if (!todos[i].completed) {
+        remainingCount++;
+      }
+    }
+    chrome.browserAction.setBadgeText({ text: remainingCount.toString() });
+  });
+};
 
 var strikeoutTodo = function() {
   var isLineThough = $(this).css("text-decoration");
@@ -64,7 +75,8 @@ var createToDoRow = function(todo) {
       todos.splice(index, 1);
       todos.splice(index, 0, todo);
       chrome.storage.sync.set({ yaad: todos }, function() {
-        console.log("Todo Deleted");
+        console.log("Todo Status Changed");
+        setTodoCount();
       });
     });
   });
@@ -98,6 +110,7 @@ var createToDoRow = function(todo) {
       todos.splice(index, 1);
       chrome.storage.sync.set({ yaad: todos }, function() {
         console.log("Todo Deleted");
+        setTodoCount();
       });
     });
   });
@@ -105,13 +118,16 @@ var createToDoRow = function(todo) {
   todoItemContainer.append(item).append(deleteButton);
   return todoItemContainer;
 };
-
 $(document).ready(function() {
   $(".todo-input").focus();
+  setTodoCount();
   // Get saved todos
   chrome.storage.sync.get("yaad", function(yaad) {
     var todoContainer = $(".container");
     var todos = yaad.yaad;
+    if (todos === undefined) {
+      todos = [];
+    }
     todos.forEach(function(todo) {
       var todoRow = createToDoRow(todo);
       todoContainer.append(todoRow);
@@ -133,9 +149,13 @@ $(document).ready(function() {
     $(".container").append(todoRow);
     chrome.storage.sync.get("yaad", function(yaad) {
       var todos = yaad.yaad;
+      if (todos === undefined) {
+        todos = [];
+      }
       todos.push(todo);
       chrome.storage.sync.set({ yaad: todos }, function() {
         console.log("Todo saved");
+        setTodoCount();
       });
     });
     $(".todo-input").val("");

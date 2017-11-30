@@ -12,7 +12,5 @@
     "default_icon": "icon16.png",
     "default_popup": "popup.html"
   },
-  "permissions": [
-    "storage"
-  ]
+  "permissions": ["storage"]
 }
