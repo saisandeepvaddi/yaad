@@ -1,21 +1,18 @@
 var removeTodo = function() {
   $(this)
     .parent()
-    .parent()
-    .parent()
     .remove();
 };
 
 var createToDoRow = function(todo) {
-  var row = $("<div class='row'></div>");
-  var span = $("<span></span>");
+  var todoItemContainer = $("<div class='todo-item'></div>");
+  var item = $("<div class='todo-element'>" + todo + "</div>");
   var deleteButton = $(
-    "<button class='todo-remove-button'>&times;</button>"
+    '<div><i class="tiny material-icons red">close</i><div>'
   ).click(removeTodo);
-  var inButton = span.append(deleteButton);
-  var item = $("<div class='col s12 todo-element'>" + todo + "</div>");
-  var buttonAddedItem = item.append(inButton);
-  return row.append(buttonAddedItem);
+  todoItemContainer.append(item).append(deleteButton);
+
+  return todoItemContainer;
 };
 
 $(document).ready(function() {
@@ -26,7 +23,8 @@ $(document).ready(function() {
     console.log("Submitted");
     var todo = $(".todo-input").val();
     var todoRow = createToDoRow(todo);
-    $(".todo-container").append(todoRow);
+    $(".container").append(todoRow);
+    $(".todo-input").val("");
   });
 });
 

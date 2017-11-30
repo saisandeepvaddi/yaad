@@ -4,17 +4,28 @@ div#dummy {
 
 html,
 body {
-  height: 100%;
   width: 100%;
+  padding: 0px;
+  margin: 0px;
+  background-color: #f2f8ea;
 }
 
 * {
   box-sizing: border-box;
 }
 
+.material-icons {
+  cursor: pointer;
+}
+.material-icons.red {
+  /* color: red; */
+  color: white;
+}
+
 div.container {
+  padding: 1rem;
   width: 200px;
-  height: 200px;
+  /* height: 200px; */
   background-color: #f2f8ea;
 }
 
@@ -30,6 +41,12 @@ div.container {
   color: white;
 }
 
-.todo-remove-button:before {
-  content: " ";
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-button-container {
+  display: flex;
+  justify-content: center;
 }
