@@ -38,13 +38,34 @@ var createToDoRow = function(todo) {
       var id = todo.id;
       todo.completed = !todo.completed;
       if (todo.completed) {
-        $(this).css("text-decoration", "line-through");
+        $(item).css("text-decoration", "line-through");
       } else {
-        $(this).css("text-decoration", "none");
+        $(item).css("text-decoration", "none");
       }
-      console.log(todo);
+      chrome.storage.sync.get("yaad", function(yaad) {
+        var todos = yaad.yaad;
+        var index = -1;
+        for (var i = 0; i < todos.length; i++) {
+          if (todos[i].id === id) {
+            index = i;
+            break;
+          }
+        }
+        todos.splice(index, 1);
+        todos.splice(index, 0, todo);
+        chrome.storage.sync.set({ yaad: todos }, function() {
+          console.log("Todo Deleted");
+        });
+      });
     }
   );
+
+  if (todo.completed) {
+    $(item).css("text-decoration", "line-through");
+  } else {
+    $(item).css("text-decoration", "none");
+  }
+
   var deleteButton = $(
     '<div><i class="tiny material-icons red">close</i><div>'
   ).click(function() {
@@ -87,6 +108,9 @@ $(document).ready(function() {
   $(".todo-form").submit(function(e) {
     e.preventDefault();
     var todoText = $(".todo-input").val();
+    if (todoText.trim() === "") {
+      return;
+    }
     var todo = {
       id: uuid(),
       data: todoText,
