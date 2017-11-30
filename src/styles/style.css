@@ -48,6 +48,8 @@ div.container {
 
 .todo-element {
   display: inline-block;
+  margin-left: 0;
+  padding-left: 0;
   width: 10em;
   overflow-wrap: break-word;
   user-select: none;

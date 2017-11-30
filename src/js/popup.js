@@ -33,32 +33,35 @@ var strikeoutTodo = function() {
 
 var createToDoRow = function(todo) {
   var todoItemContainer = $("<div class='todo-item'></div>");
-  var item = $("<div class='todo-element'>" + todo.data + "</div>").click(
-    function() {
-      var id = todo.id;
-      todo.completed = !todo.completed;
-      if (todo.completed) {
-        $(item).css("text-decoration", "line-through");
-      } else {
-        $(item).css("text-decoration", "none");
-      }
-      chrome.storage.sync.get("yaad", function(yaad) {
-        var todos = yaad.yaad;
-        var index = -1;
-        for (var i = 0; i < todos.length; i++) {
-          if (todos[i].id === id) {
-            index = i;
-            break;
-          }
-        }
-        todos.splice(index, 1);
-        todos.splice(index, 0, todo);
-        chrome.storage.sync.set({ yaad: todos }, function() {
-          console.log("Todo Deleted");
-        });
-      });
+  var item = $(
+    "<div class='todo-element'>" +
+      "<b>&CenterDot;</b>&nbsp;&nbsp;" +
+      todo.data +
+      "</div>"
+  ).click(function() {
+    var id = todo.id;
+    todo.completed = !todo.completed;
+    if (todo.completed) {
+      $(item).css("text-decoration", "line-through");
+    } else {
+      $(item).css("text-decoration", "none");
     }
-  );
+    chrome.storage.sync.get("yaad", function(yaad) {
+      var todos = yaad.yaad;
+      var index = -1;
+      for (var i = 0; i < todos.length; i++) {
+        if (todos[i].id === id) {
+          index = i;
+          break;
+        }
+      }
+      todos.splice(index, 1);
+      todos.splice(index, 0, todo);
+      chrome.storage.sync.set({ yaad: todos }, function() {
+        console.log("Todo Deleted");
+      });
+    });
+  });
 
   if (todo.completed) {
     $(item).css("text-decoration", "line-through");
