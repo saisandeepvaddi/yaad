@@ -17,6 +17,12 @@ var createToDoRow = function(todo) {
 
 $(document).ready(function() {
   $(".todo-input").focus();
+  var todos = [];
+  // Get saved todos
+  chrome.storage.sync.get("yaad", function(yaad) {
+    console.log(yaad);
+    todos = yaad.todos;
+  });
 
   $(".todo-form").submit(function(e) {
     e.preventDefault();
@@ -25,6 +31,9 @@ $(document).ready(function() {
     var todoRow = createToDoRow(todo);
     $(".container").append(todoRow);
     $(".todo-input").val("");
+    chrome.storage.sync.set({ yaad: todos }, function() {
+      console.log("Todo saved");
+    });
   });
 });
 
