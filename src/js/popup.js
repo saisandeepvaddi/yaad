@@ -35,16 +35,22 @@ var createToDoRow = function(todo) {
   var todoItemContainer = $("<div class='todo-item'></div>");
   var item = $(
     "<div class='todo-element'>" +
-      "<b>&CenterDot;</b>&nbsp;&nbsp;" +
+      "<b>&rtrif;</b>&nbsp;&nbsp;" +
+      "<span class='todo-data'>" +
       todo.data +
+      "</span>" +
       "</div>"
   ).click(function() {
     var id = todo.id;
     todo.completed = !todo.completed;
     if (todo.completed) {
-      $(item).css("text-decoration", "line-through");
+      $(item)
+        .find("span.todo-data")
+        .css("text-decoration", "line-through");
     } else {
-      $(item).css("text-decoration", "none");
+      $(item)
+        .find("span.todo-data")
+        .css("text-decoration", "none");
     }
     chrome.storage.sync.get("yaad", function(yaad) {
       var todos = yaad.yaad;
@@ -64,9 +70,13 @@ var createToDoRow = function(todo) {
   });
 
   if (todo.completed) {
-    $(item).css("text-decoration", "line-through");
+    $(item)
+      .find("span.todo-data")
+      .css("text-decoration", "line-through");
   } else {
-    $(item).css("text-decoration", "none");
+    $(item)
+      .find("span.todo-data")
+      .css("text-decoration", "none");
   }
 
   var deleteButton = $(
