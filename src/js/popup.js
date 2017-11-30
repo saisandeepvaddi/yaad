@@ -6,8 +6,6 @@ var removeTodo = function() {
 
 var strikeoutTodo = function() {
   var isLineThough = $(this).css("text-decoration");
-  console.log(isLineThough);
-
   if (isLineThough.split(" ").includes("line-through")) {
     $(this).css("text-decoration", "none");
   } else {
@@ -30,23 +28,30 @@ var createToDoRow = function(todo) {
 
 $(document).ready(function() {
   $(".todo-input").focus();
-  var todos = [];
   // Get saved todos
   chrome.storage.sync.get("yaad", function(yaad) {
-    console.log(yaad);
-    todos = yaad.todos;
+    var todoContainer = $(".container");
+    console.log(yaad.yaad);
+    var todos = yaad.yaad;
+    todos.forEach(function(todo) {
+      var todoRow = createToDoRow(todo);
+      todoContainer.append(todoRow);
+    });
   });
 
   $(".todo-form").submit(function(e) {
     e.preventDefault();
-    console.log("Submitted");
     var todo = $(".todo-input").val();
     var todoRow = createToDoRow(todo);
     $(".container").append(todoRow);
-    $(".todo-input").val("");
-    chrome.storage.sync.set({ yaad: todos }, function() {
-      console.log("Todo saved");
+    chrome.storage.sync.get("yaad", function(yaad) {
+      var todos = yaad.yaad;
+      todos.push(todo);
+      chrome.storage.sync.set({ yaad: todos }, function() {
+        console.log("Todo saved");
+      });
     });
+    $(".todo-input").val("");
   });
 });
 
