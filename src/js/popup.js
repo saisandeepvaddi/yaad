@@ -1,8 +1,26 @@
-var removeTodo = function() {
-  $(this)
-    .parent()
-    .remove();
-};
+function uuid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return (
+    s4() +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    s4() +
+    s4()
+  );
+}
+
+var removeTodo = function(todo) {};
 
 var strikeoutTodo = function() {
   var isLineThough = $(this).css("text-decoration");
@@ -15,14 +33,42 @@ var strikeoutTodo = function() {
 
 var createToDoRow = function(todo) {
   var todoItemContainer = $("<div class='todo-item'></div>");
-  var item = $("<div class='todo-element'>" + todo + "</div>").click(
-    strikeoutTodo
+  var item = $("<div class='todo-element'>" + todo.data + "</div>").click(
+    function() {
+      var id = todo.id;
+      todo.completed = !todo.completed;
+      if (todo.completed) {
+        $(this).css("text-decoration", "line-through");
+      } else {
+        $(this).css("text-decoration", "none");
+      }
+      console.log(todo);
+    }
   );
   var deleteButton = $(
     '<div><i class="tiny material-icons red">close</i><div>'
-  ).click(removeTodo);
-  todoItemContainer.append(item).append(deleteButton);
+  ).click(function() {
+    var id = todo.id;
+    $(this)
+      .parent()
+      .remove();
+    chrome.storage.sync.get("yaad", function(yaad) {
+      var todos = yaad.yaad;
+      var index = -1;
+      for (var i = 0; i < todos.length; i++) {
+        if (todos[i].id === id) {
+          index = i;
+          break;
+        }
+      }
+      todos.splice(index, 1);
+      chrome.storage.sync.set({ yaad: todos }, function() {
+        console.log("Todo Deleted");
+      });
+    });
+  });
 
+  todoItemContainer.append(item).append(deleteButton);
   return todoItemContainer;
 };
 
@@ -31,7 +77,6 @@ $(document).ready(function() {
   // Get saved todos
   chrome.storage.sync.get("yaad", function(yaad) {
     var todoContainer = $(".container");
-    console.log(yaad.yaad);
     var todos = yaad.yaad;
     todos.forEach(function(todo) {
       var todoRow = createToDoRow(todo);
@@ -41,7 +86,12 @@ $(document).ready(function() {
 
   $(".todo-form").submit(function(e) {
     e.preventDefault();
-    var todo = $(".todo-input").val();
+    var todoText = $(".todo-input").val();
+    var todo = {
+      id: uuid(),
+      data: todoText,
+      completed: false
+    };
     var todoRow = createToDoRow(todo);
     $(".container").append(todoRow);
     chrome.storage.sync.get("yaad", function(yaad) {
