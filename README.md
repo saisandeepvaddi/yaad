@@ -6,7 +6,7 @@ Download [here](https://chrome.google.com/webstore/detail/yaad/nnonbibffdmfiielk
 
 ## Preview
 
-<img src="/demos/github_demo.PNG" alt="demo.png" height=300 width=500 />
+<img src="/demos/github_demo.PNG" alt="demo.png" />
 
 ## Roadmap:
  - Port to Firefox
