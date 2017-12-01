@@ -12,6 +12,8 @@ body {
 
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 .material-icons {
@@ -26,8 +28,9 @@ body {
 div.container {
   padding: 1rem;
   width: 200px;
-  /* height: 200px; */
   background-color: #f2f8ea;
+  /* height: 200px; */
+  /* background-color: rgba(255, 255, 255, 0.699); */
 }
 
 .center-text {
@@ -58,4 +61,26 @@ div.container {
 .add-button-container {
   display: flex;
   justify-content: center;
+}
+
+.todo-data {
+  font-size: 1rem;
+}
+
+.delete-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.clear-done-container {
+  display: flex;
+  justify-content: center;
+}
+
+.clear-done-button {
+  color: #c41e3d;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  font-size: 0.75rem;
 }
