@@ -52,22 +52,8 @@ function clearDone() {
             $(".container").append(todoRow);
           }
         });
-        setTodoCount();
       });
     });
-  });
-}
-
-function setTodoCount() {
-  chrome.storage.sync.get("yaad", function(yaad) {
-    let allTodos = yaad.yaad;
-    let remainingCount = 0;
-    for (let i = 0; i < allTodos.length; i++) {
-      if (!allTodos[i].completed) {
-        remainingCount++;
-      }
-    }
-    chrome.browserAction.setBadgeText({ text: remainingCount.toString() });
   });
 }
 
@@ -118,7 +104,7 @@ function createToDoRow(todo) {
       todosBeforeStrike.splice(index, 0, newTodo);
       chrome.storage.sync.set({ yaad: todosBeforeStrike }, function() {
         console.log("Todo Status Changed");
-        setTodoCount();
+        // setTodoCount();
       });
     });
   });
@@ -152,7 +138,6 @@ function createToDoRow(todo) {
       todosBeforeDelete.splice(index, 1);
       chrome.storage.sync.set({ yaad: todosBeforeDelete }, function() {
         console.log("Todo Deleted");
-        setTodoCount();
       });
     });
   });
@@ -164,7 +149,6 @@ function createToDoRow(todo) {
 
 $(document).ready(function() {
   $(".todo-input").focus();
-  setTodoCount();
   $(".clear-done-button").on("click", clearDone);
   // Get saved todos
   chrome.storage.sync.get("yaad", function(yaad) {
@@ -200,7 +184,6 @@ $(document).ready(function() {
       todosWithNewOne.push(todo);
       chrome.storage.sync.set({ yaad: todosWithNewOne }, function() {
         console.log("Todo saved");
-        setTodoCount();
       });
     });
     $(".todo-input").val("");

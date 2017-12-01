@@ -27,7 +27,7 @@ body {
 
 div.container {
   padding: 1rem;
-  width: 200px;
+  width: 250px;
   background-color: #f2f8ea;
   /* height: 200px; */
   /* background-color: rgba(255, 255, 255, 0.699); */
@@ -45,6 +45,7 @@ div.container {
 }
 
 .todo-item {
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
 }
@@ -65,6 +66,7 @@ div.container {
 
 .todo-data {
   font-size: 1rem;
+  letter-spacing: 0.02em;
 }
 
 .delete-div {
@@ -80,6 +82,7 @@ div.container {
 
 .clear-done-button {
   color: #c41e3d;
+  letter-spacing: 0.05em;
   margin-bottom: 1rem;
   font-weight: bold;
   font-size: 0.75rem;
