@@ -6,7 +6,7 @@
     "48": "icon64.png",
     "128": "icon128.png"
   },
-  "name": "yaad",
+  "name": "Yaad",
   "background": {
     "scripts": ["background.js"],
     "persistent": false
